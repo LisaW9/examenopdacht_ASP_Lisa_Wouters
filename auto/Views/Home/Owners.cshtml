@@ -1,0 +1,31 @@
+﻿@model OwnerIndexViewModel
+@{
+    ViewData["Title"] = "Owners";
+}
+
+<h1>Owners</h1>
+@foreach (var owner in Model.Owners)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>@owner.FirstName @owner.Name</th>
+            </tr>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>License plate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in owner.Cars)
+            {
+                <tr>
+                    <td>@car.Type.Brand</td>
+                    <td>@car.Type.Model</td>
+                    <td>@car.LicensePlate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

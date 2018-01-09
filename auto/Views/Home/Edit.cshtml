@@ -53,9 +53,6 @@
             <span asp-validation-for="TypeId" style="color: red"></span>
         </div>
     </div>
-    <!-- als we dit niet doen gaat op het model dat in "Save" binnenkomt geen id gezet zijn, en gaan we elke keer een
-    nieuw object aanmaken -->
-    <div asp-validation-summary="ModelOnly"></div>
 
     <input type="hidden" asp-for="Id" />
     <input type="submit" />

@@ -22,7 +22,11 @@
                 <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.LicensePlate</a> </td>
                 <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.OwnerLabel</a></td>
                 <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.TypeLabel</a></td>
-                <td><a asp-controller="Home" asp-action="Delete" asp-route-id="@car.Id">Delete car</a></td>
+                <td>
+                    <form asp-controller="Home" asp-action="Delete" asp-route-id="@car.Id">
+                        <input type="submit" value="Delete car"/>
+                    </form>
+                </td>
             </tr>
         }
         <tr>

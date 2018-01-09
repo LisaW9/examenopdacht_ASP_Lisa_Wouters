@@ -17,6 +17,7 @@ namespace auto.Controllers
         {
             _modelFetcher = carModelFetcher;
         }
+
         public IActionResult Index()
         {
             var model = new CarIndexViewModel
@@ -53,34 +54,32 @@ namespace auto.Controllers
             var data = _modelFetcher.GetCarViewModel(id);
             if (data == null)
             {
-                // Indien er geen person met dat id is, geven we een 404 terug. Je kan dit zien door te hoveren over de NotFound methode.
-                // Je hebt nog massa's andere: Accepted(), Ok(), ... .
                 return NotFound();
             }
             return View(data);
         }
 
-        [HttpGet("New")]
         public IActionResult New()
         {
-            // In deze methode gaan we het "nieuw" scherm laten zien. Dit is het zelfde als een edit scherm, maar dan voor een nieuw object.
-            // Dit wil zeggen: géén id, géén vooraf ingevulde waarden.
-            return View("Edit", new CarViewModel());
+            var car = new CarViewModel();
+            var owners = _modelFetcher.GetAllOwners().Select(_modelFetcher.ConvertOwnersToSelectListItem).ToList();
+            var types = _modelFetcher.GetAllTypes().Select(_modelFetcher.ConvertTypesToSelectListItem).ToList();
+            car.Owners = owners;
+            car.Types = types;
+            return View("Edit", car);
         }
 
         [HttpPost]
         public IActionResult Save(CarViewModel car)
         {
-            // kijkt of de state van het doorgegeven model (in dit geval `person`) valid is. Valid = aan alle annotations is voldaan.
             car.Id = _modelFetcher.Save(car);
-            return Redirect("/");
+            return Redirect("../");
         }
 
         [HttpPost]
         public IActionResult Delete(CarViewModel car)
         {
-            // kijkt of de state van het doorgegeven model (in dit geval `person`) valid is. Valid = aan alle annotations is voldaan.
-            car.Id = _modelFetcher.Delete(car);
+            _modelFetcher.Delete(car);
             return Redirect("/");
         }
     }

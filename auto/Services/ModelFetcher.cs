@@ -12,11 +12,16 @@ namespace auto.Services
     {
         IEnumerable<CarViewModel> GetAllCarViewModels();
         CarViewModel GetCarViewModel(int id);
+        SelectListItem ConvertOwnersToSelectListItem(Owner owner);
+        SelectListItem ConvertTypesToSelectListItem(CarType type);
         int Save(CarViewModel car);
-        int Delete(CarViewModel car);
+        void Delete(CarViewModel car);
 
         IEnumerable<OwnerViewModel> GetAllOwnerViewModels();
         IEnumerable<TypeViewModel> GetAllTypeViewModels();
+
+        IEnumerable<Owner> GetAllOwners();
+        IEnumerable<CarType> GetAllTypes();
     }
 
     public class ModelFetcher : IModelFetcher
@@ -42,7 +47,7 @@ namespace auto.Services
             return ConvertToDto(_repository.GetCarById(id), owners, types);
         }
 
-        private SelectListItem ConvertOwnersToSelectListItem(Owner owner)
+        public SelectListItem ConvertOwnersToSelectListItem(Owner owner)
         {
             if (owner == null)
             {
@@ -55,7 +60,7 @@ namespace auto.Services
             };
         }
 
-        private SelectListItem ConvertTypesToSelectListItem(CarType type)
+        public SelectListItem ConvertTypesToSelectListItem(CarType type)
         {
             if (type == null)
             {
@@ -74,10 +79,10 @@ namespace auto.Services
             return _repository.Save(car);
         }
 
-        public int Delete(CarViewModel car)
+        public void Delete(CarViewModel car)
         {
 
-            return _repository.Delete(car);
+            _repository.Delete(car);
         }
 
         private CarViewModel ConvertToDto(Car x, List<SelectListItem> owners, List<SelectListItem> types)
@@ -151,6 +156,16 @@ namespace auto.Services
                 types.Add(typeView);
             }
             return types;
+        }
+
+        public IEnumerable<Owner> GetAllOwners()
+        {
+            return _repository.GetAllOwners();
+        }
+
+        public IEnumerable<CarType> GetAllTypes()
+        {
+            return _repository.GetAllTypes();
         }
     }
 }

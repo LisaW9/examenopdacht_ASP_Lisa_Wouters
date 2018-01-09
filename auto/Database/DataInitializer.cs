@@ -8,7 +8,6 @@ namespace auto.Database
 
         public static void InitializeDatabase(PersonalDataContext database)
         {
-            // de database aanmaken als ze niet bestaat.
             database.Database.EnsureCreated();
 
             InitializeCarTypes(database);
@@ -18,20 +17,18 @@ namespace auto.Database
 
         private static void InitializeCarTypes(PersonalDataContext database)
         {
-            // een item met deze structuur noemt men een tuple. Zie verder in de code hoe je deze dient te gebruiken. Op deze manier moet je
-            // geen dedicated class hiervoor aanmaken.
             var data = new[]
             {
+                ("Chevrolet", "Camaro"),
                 ("Ford", "Fiesta"),
+                ("Ford", "Mustang"),
                 ("Opel", "Astra"),
                 ("Opel", "Corsa"),
-                ("Mercedes", "C-Klasse Berline"),
+                ("Mercedes-Benz", "C-Klasse"),
             };
 
             foreach (var d in data)
             {
-                // volgende code checked of er een persoon bestaat met die voornaam, achternaam combinatie van de tuple hierboven. Indien "ja",
-                // komt hij niét aan de add methode.
                 if (!database.Types.Any(x => x.Brand == d.Item1 && x.Model ==d.Item2))
                 {
                     database.Types.Add(new CarType()
@@ -41,15 +38,12 @@ namespace auto.Database
                     });
                 }
 
-                //Na een persist of een delete dien je altijd SaveChanges() aan te roepen; dit commit de data naar de database.
                 database.SaveChanges();
             }
         }
 
         private static void InitializeOwners(PersonalDataContext database)
         {
-            // een item met deze structuur noemt men een tuple. Zie verder in de code hoe je deze dient te gebruiken. Op deze manier moet je
-            // geen dedicated class hiervoor aanmaken.
             var data = new[]
             {
                 ("Wouters", "Lisa"),
@@ -61,8 +55,6 @@ namespace auto.Database
 
             foreach (var d in data)
             {
-                // volgende code checked of er een persoon bestaat met die voornaam, achternaam combinatie van de tuple hierboven. Indien "ja",
-                // komt hij niét aan de add methode.
                 if (!database.Owners.Any(x => x.Name == d.Item1 && x.FirstName == d.Item2))
                 {
                     database.Owners.Add(new Owner()
@@ -72,15 +64,12 @@ namespace auto.Database
                     });
                 }
 
-                //Na een persist of een delete dien je altijd SaveChanges() aan te roepen; dit commit de data naar de database.
                 database.SaveChanges();
             }
         }
 
         private static void InitializeCars(PersonalDataContext database)
         {
-            // een item met deze structuur noemt men een tuple. Zie verder in de code hoe je deze dient te gebruiken. Op deze manier moet je
-            // geen dedicated class hiervoor aanmaken.
             var data = new[]
             {
                 ("Silver", new DateTime(2002, 01, 02), "1 NDB 357", database.Owners.FirstOrDefault(x => x.FirstName == "Lisa"), database.Types.FirstOrDefault(x => x.Brand == "Ford" && x.Model == "Fiesta")),
@@ -91,8 +80,6 @@ namespace auto.Database
             
             foreach (var d in data)
             {
-                // volgende code checked of er een persoon bestaat met die voornaam, achternaam combinatie van de tuple hierboven. Indien "ja",
-                // komt hij niét aan de add methode.
                 if (!database.Cars.Any(x => x.LicensePlate == d.Item3))
                 {
                     database.Cars.Add(new Car()
@@ -105,7 +92,6 @@ namespace auto.Database
                     });
                 }
 
-                //Na een persist of een delete dien je altijd SaveChanges() aan te roepen; dit commit de data naar de database.
                 database.SaveChanges();
             }
         }

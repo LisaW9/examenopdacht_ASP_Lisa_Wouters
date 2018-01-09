@@ -13,7 +13,7 @@ namespace auto.Services
         IEnumerable<Car> GetAllCars();
         Car GetCarById(int id);
         int Save(CarViewModel car);
-        int Delete(CarViewModel car);
+        void Delete(CarViewModel car);
 
         IEnumerable<Owner> GetAllOwners();
 
@@ -70,12 +70,11 @@ namespace auto.Services
             return id;
         }
 
-        public int Delete(CarViewModel car)
+        public void Delete(CarViewModel car)
         {
             var existing = _dataContext.Cars.FirstOrDefault(x => x.Id == car.Id);
-            _dataContext.Remove(existing);
+            _dataContext.Cars.Remove(existing);
             _dataContext.SaveChanges();
-            return existing.Id;
         }
 
         public IEnumerable<Owner> GetAllOwners()

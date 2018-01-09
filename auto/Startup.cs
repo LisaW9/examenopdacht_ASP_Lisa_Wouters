@@ -25,9 +25,7 @@ namespace auto
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IDataRepository, DataRepository>();
-            services.AddScoped<ICarModelFetcher, CarModelFetcher>();
-            services.AddScoped<IOwnerModelFetcher, OwnerModelFetcher>();
-            services.AddScoped<ITypeModelFetcher, TypeModelFetcher>();
+            services.AddScoped<IModelFetcher, ModelFetcher>();
             services.AddMvc();
             services.AddDbContext<PersonalDataContext>(options => options.UseSqlite("Data Source=database.sqlite"));
         }

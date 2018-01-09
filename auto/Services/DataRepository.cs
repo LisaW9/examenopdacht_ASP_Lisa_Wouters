@@ -12,15 +12,12 @@ namespace auto.Services
     {
         IEnumerable<Car> GetAllCars();
         Car GetCarById(int id);
-        int SaveCar(CarViewModel car);
+        int Save(CarViewModel car);
+        int Delete(CarViewModel car);
 
         IEnumerable<Owner> GetAllOwners();
-        Owner GetOwnerById(int id);
-        int SaveOwner(OwnerViewModel car);
 
         IEnumerable<CarType> GetAllTypes();
-        CarType GetTypeById(int id);
-        int SaveType(TypeViewModel car);
     }
 
     public class DataRepository : IDataRepository
@@ -42,7 +39,7 @@ namespace auto.Services
             return _dataContext.Cars.Find(id);
         }
 
-        public int SaveCar(CarViewModel car)
+        public int Save(CarViewModel car)
         {
             var existing = _dataContext.Cars.FirstOrDefault(x => x.Id == car.Id);
             var id = 0;
@@ -51,8 +48,8 @@ namespace auto.Services
                 existing.Color = car.Color;
                 existing.PurchaseDate = car.PurchaseDate;
                 existing.LicensePlate = car.LicensePlate;
-                existing.Owner = car.Owner;
-                existing.Type = car.Type;
+                existing.Owner = _dataContext.Owners.Find(car.OwnerId);
+                existing.Type = _dataContext.Types.Find(car.TypeId);
 
                 _dataContext.Update(existing);
                 id = existing.Id;
@@ -63,8 +60,8 @@ namespace auto.Services
                 newCar.Color = car.Color;
                 newCar.PurchaseDate = car.PurchaseDate;
                 newCar.LicensePlate = car.LicensePlate;
-                newCar.Owner = car.Owner;
-                newCar.Type = car.Type;
+                newCar.Owner = _dataContext.Owners.Find(car.OwnerId);
+                newCar.Type = _dataContext.Types.Find(car.TypeId);
 
                 _dataContext.Add(newCar);
                 id = newCar.Id;
@@ -73,74 +70,22 @@ namespace auto.Services
             return id;
         }
 
+        public int Delete(CarViewModel car)
+        {
+            var existing = _dataContext.Cars.FirstOrDefault(x => x.Id == car.Id);
+            _dataContext.Remove(existing);
+            _dataContext.SaveChanges();
+            return existing.Id;
+        }
+
         public IEnumerable<Owner> GetAllOwners()
         {
             return _dataContext.Owners.ToList();
         }
 
-        public Owner GetOwnerById(int id)
-        {
-            return _dataContext.Owners.Find(id);
-        }
-
-        public int SaveOwner(OwnerViewModel owner)
-        {
-            var existing = _dataContext.Owners.FirstOrDefault(x => x.Id == owner.Id);
-            var id = 0;
-            if (existing != null)
-            {
-                existing.Name = owner.Name;
-                existing.FirstName = owner.FirstName;
-
-                _dataContext.Update(existing);
-                id = existing.Id;
-            }
-            else
-            {
-                var newOwner = new Owner();
-                newOwner.Name = owner.Name;
-                newOwner.FirstName = owner.FirstName;
-
-                _dataContext.Add(newOwner);
-                id = newOwner.Id;
-            }
-            _dataContext.SaveChanges();
-            return id;
-        }
-
         public IEnumerable<CarType> GetAllTypes()
         {
             return _dataContext.Types.ToList();
-        }
-
-        public CarType GetTypeById(int id)
-        {
-            return _dataContext.Types.Find(id);
-        }
-
-        public int SaveType(TypeViewModel type)
-        {
-            var existing = _dataContext.Types.FirstOrDefault(x => x.Id == type.Id);
-            var id = 0;
-            if (existing != null)
-            {
-                existing.Brand = type.Brand;
-                existing.Model = type.Model;
-
-                _dataContext.Update(existing);
-                id = existing.Id;
-            }
-            else
-            {
-                var newType = new CarType();
-                newType.Brand = type.Brand;
-                newType.Model = type.Model;
-
-                _dataContext.Add(newType);
-                id = newType.Id;
-            }
-            _dataContext.SaveChanges();
-            return id;
         }
     }
 }

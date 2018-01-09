@@ -1,0 +1,62 @@
+﻿@model CarViewModel
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.LicensePlate) ? "Nieuwe auto" : Model.LicensePlate;
+}
+<form asp-action="Save" asp-controller="Home">
+    <div class="row">
+        <div class="col-lg-2">
+            <label asp-for="LicensePlate">Nummerplaat:</label>
+        </div>
+        <div class="col-lg-10">
+            <input asp-for="LicensePlate" />
+            <!-- toont de server-side validation voor FirstName indien aanwezig-->
+            <span asp-validation-for="LicensePlate" style="color: red"></span>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <label asp-for="PurchaseDate">Datum gekocht:</label>
+        </div>
+        <div class="col-lg-10">
+            <input type="date" asp-for="PurchaseDate" />
+            <span asp-validation-for="PurchaseDate" style="color: red"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <label asp-for="Color">Kleur:</label>
+        </div>
+        <div class="col-lg-10">
+            <input asp-for="Color" />
+            <span asp-validation-for="Color" style="color: red"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <label asp-for="OwnerId">Eigenaar:</label>
+        </div>
+        <div class="col-lg-10">
+            <select asp-for="OwnerId" asp-items="Model.Owners"></select>
+            <span asp-validation-for="OwnerId" style="color: red"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <label asp-for="TypeId">Merk:</label>
+        </div>
+        <div class="col-lg-10">
+            <select asp-for="TypeId" asp-items="Model.Types"></select>
+            <span asp-validation-for="TypeId" style="color: red"></span>
+        </div>
+    </div>
+    <!-- als we dit niet doen gaat op het model dat in "Save" binnenkomt geen id gezet zijn, en gaan we elke keer een
+    nieuw object aanmaken -->
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" />
+</form>

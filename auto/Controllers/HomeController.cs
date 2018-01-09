@@ -11,21 +11,17 @@ namespace auto.Controllers
 {
     public class HomeController : Controller
     {
-        private ICarModelFetcher _carModelFetcher;
-        private IOwnerModelFetcher _ownerModelFetcher;
-        private ITypeModelFetcher _typeModelFetcher;
+        private IModelFetcher _modelFetcher;
 
-        public HomeController(ICarModelFetcher carModelFetcher, IOwnerModelFetcher ownerModelFetcher, ITypeModelFetcher typeModelFetcher)
+        public HomeController(IModelFetcher carModelFetcher)
         {
-            _carModelFetcher = carModelFetcher;
-            _ownerModelFetcher = ownerModelFetcher;
-            _typeModelFetcher = typeModelFetcher;
+            _modelFetcher = carModelFetcher;
         }
         public IActionResult Index()
         {
             var model = new CarIndexViewModel
             {
-                Cars = _carModelFetcher.GetAllCarViewModels()
+                Cars = _modelFetcher.GetAllCarViewModels()
             };
 
             return View(model);
@@ -35,7 +31,7 @@ namespace auto.Controllers
         {
             var model = new OwnerIndexViewModel
             {
-                Owners = _ownerModelFetcher.GetAllOwnerViewModels()
+                Owners = _modelFetcher.GetAllOwnerViewModels()
             };
 
             return View(model);
@@ -45,10 +41,47 @@ namespace auto.Controllers
         {
             var model = new TypeIndexViewModel
             {
-                Types = _typeModelFetcher.GetAllTypeViewModels()
+                Types = _modelFetcher.GetAllTypeViewModels()
             };
 
             return View(model);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Edit([FromRoute] int id)
+        {
+            var data = _modelFetcher.GetCarViewModel(id);
+            if (data == null)
+            {
+                // Indien er geen person met dat id is, geven we een 404 terug. Je kan dit zien door te hoveren over de NotFound methode.
+                // Je hebt nog massa's andere: Accepted(), Ok(), ... .
+                return NotFound();
+            }
+            return View(data);
+        }
+
+        [HttpGet("New")]
+        public IActionResult New()
+        {
+            // In deze methode gaan we het "nieuw" scherm laten zien. Dit is het zelfde als een edit scherm, maar dan voor een nieuw object.
+            // Dit wil zeggen: géén id, géén vooraf ingevulde waarden.
+            return View("Edit", new CarViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Save(CarViewModel car)
+        {
+            // kijkt of de state van het doorgegeven model (in dit geval `person`) valid is. Valid = aan alle annotations is voldaan.
+            car.Id = _modelFetcher.Save(car);
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(CarViewModel car)
+        {
+            // kijkt of de state van het doorgegeven model (in dit geval `person`) valid is. Valid = aan alle annotations is voldaan.
+            car.Id = _modelFetcher.Delete(car);
+            return Redirect("/");
         }
     }
 }

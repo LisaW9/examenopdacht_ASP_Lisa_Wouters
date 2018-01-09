@@ -20,8 +20,8 @@
             @foreach (var car in type.Cars)
             {
                 <tr>
-                    <td>@car.LicensePlate</td>
-                    <td>@car.Owner.FirstName @car.Owner.Name</td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.LicensePlate</a></td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.OwnerLabel</a></td>
                 </tr>
             }
         </tbody>

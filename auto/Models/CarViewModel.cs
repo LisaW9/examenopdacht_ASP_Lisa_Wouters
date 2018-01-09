@@ -1,4 +1,5 @@
 ﻿using auto.Database;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,10 +21,17 @@ namespace auto.Models
         [Required(AllowEmptyStrings = false)]
         public string LicensePlate { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
-        public Owner Owner { get; set; }
+        public int? OwnerId { get; set; }
+        public List<SelectListItem> Owners { get; set; }
+        public string OwnerLabel { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
-        public CarType Type { get; set; }
+        public int? TypeId { get; set; }
+        public List<SelectListItem> Types { get; set; }
+        public string TypeLabel { get; set; }
+    }
+
+    public class CarIndexViewModel
+    {
+        public IEnumerable<CarViewModel> Cars { get; set; }
     }
 }

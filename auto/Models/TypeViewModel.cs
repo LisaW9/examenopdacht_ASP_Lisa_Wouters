@@ -18,4 +18,9 @@ namespace auto.Models
 
         public List<CarViewModel> Cars { get; set; }
     }
+
+    public class TypeIndexViewModel
+    {
+        public IEnumerable<TypeViewModel> Types { get; set; }
+    }
 }

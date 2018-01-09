@@ -21,11 +21,11 @@
             @foreach (var car in owner.Cars)
             {
                 <tr>
-                    <td>@car.Type.Brand</td>
-                    <td>@car.Type.Model</td>
-                    <td>@car.LicensePlate</td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.TypeLabel.Split(' ')[0]</a></td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.TypeLabel.Split(' ')[1]</a></td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@car.Id">@car.LicensePlate</a></td>
                 </tr>
             }
         </tbody>
     </table>
-}
+} 

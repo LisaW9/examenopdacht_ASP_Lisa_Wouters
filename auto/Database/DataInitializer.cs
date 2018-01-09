@@ -25,6 +25,7 @@ namespace auto.Database
                 ("Ford", "Fiesta"),
                 ("Opel", "Astra"),
                 ("Opel", "Corsa"),
+                ("Mercedes", "C-Klasse Berline"),
             };
 
             foreach (var d in data)
@@ -54,6 +55,8 @@ namespace auto.Database
                 ("Wouters", "Lisa"),
                 ("Turrion", "Nico"),
                 ("Wouters", "Elke"),
+                ("Wouters", "Tony"),
+                ("eigenaar", "Geen"),
             };
 
             foreach (var d in data)
@@ -82,7 +85,8 @@ namespace auto.Database
             {
                 ("Silver", new DateTime(2002, 01, 02), "1 NDB 357", database.Owners.FirstOrDefault(x => x.FirstName == "Lisa"), database.Types.FirstOrDefault(x => x.Brand == "Ford" && x.Model == "Fiesta")),
                 ("Blue", new DateTime(1998, 05, 13), "1 SGX 186", database.Owners.FirstOrDefault(x => x.FirstName == "Nico"), database.Types.FirstOrDefault(x => x.Brand == "Opel" && x.Model == "Astra")),
-                ("Black", new DateTime(1996, 12, 05), "1 DRO 007", database.Owners.FirstOrDefault(x => x.FirstName == "Elke"), database.Types.FirstOrDefault(x => x.Brand == "Opel" && x.Model == "Corsa")),
+                ("Black", new DateTime(1996, 12, 05), "1 ODR 573", database.Owners.FirstOrDefault(x => x.FirstName == "Elke"), database.Types.FirstOrDefault(x => x.Brand == "Opel" && x.Model == "Corsa")),
+                ("White", new DateTime(2016, 08, 12), "1 ULR 648", database.Owners.FirstOrDefault(x => x.FirstName == "Tony"), database.Types.FirstOrDefault(x => x.Brand == "Mercedes" && x.Model == "C-Klasse Berline")),
             };
             
             foreach (var d in data)
